@@ -5,65 +5,91 @@ import Tree from "./components/Tree";
 import Sortable from "./components/Sortable";
 import Collapsible from "./components/Collapsible";
 
-class App extends Component {
-	state = {
-		data: [
+const data = [
+  {
+    text: "Movies",
+    children: [
       {
-        text: "Movies",
+        text: "Horror",
         children: [
           {
-            text: "Horror",
-            children: [
-              {
-                text: "Halloween"
-              },
-              {
-                text: "Alien"
-              }
-            ]
+            text: "Halloween"
           },
           {
-            text: "Action",
-            children: [
-              {
-                text: "Stone Cold"
-              },
-              {
-                text: "Commando"
-              }
-            ]
+            text: "Alien"
           }
         ]
       },
       {
-        text: "Books",
+        text: "Action",
         children: [
           {
-            text: "Children of time"
+            text: "Stone Cold"
+          },
+          {
+            text: "Commando"
           }
         ]
       }
     ]
-	};
+  },
+  {
+    text: "Books",
+    children: [
+      {
+        text: "Children of time"
+      }
+    ]
+  }
+];
+
+class App extends Component {
+  
+	state = {
+    data,
+    dataText: JSON.stringify(data, null , 2)
+  };
+  
+  constructor(props){
+    super(props)
+  }
+
+
+  handleChange = (e) => {
+    try{
+      const data = JSON.parse(e.target.value)
+      this.setState({data})
+    }
+    catch (e){
+      console.error('Invalid Data');
+    }
+  }
 	render() {
 		return (
 			<div className="App">
 				<div>
-					<h1>Default Tree</h1>
-					<Tree data={this.state.data} />
+					<div>
+						<h1>Default Tree</h1>
+						<Tree data={this.state.data} />
+					</div>
+					<hr />
+					<div>
+						<h1>Sorted Tree</h1>
+						<Sortable>
+							<Tree data={this.state.data} />
+						</Sortable>
+					</div>
+          <hr />
+					<div>
+						<h1>Collapsible Tree</h1>
+						<Collapsible>
+							<Tree data={this.state.data} />
+						</Collapsible>
+					</div>
 				</div>
-        <hr/>
         <div>
-          <h1>Sorted Tree</h1>
-          <Sortable>
-            <Tree data={this.state.data} />
-          </Sortable>
-        </div>
-        <div>
-          <h1>Collapsible Tree</h1>
-          <Collapsible>
-            <Tree data={this.state.data} />
-          </Collapsible>
+          <h4>You can Edit the data to test functionality</h4>
+          <textarea  defaultValue={this.state.dataText} onChange={this.handleChange} style={{fontFamily: 'monospace', fontSize: 16}}></textarea>
         </div>
 			</div>
 		);
