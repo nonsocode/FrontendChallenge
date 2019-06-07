@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import { Consumer } from "./Sortable";
 export interface TreeProps {
 	data: TreeData[];
 }
@@ -24,11 +25,24 @@ function TreeItem({ node: { text, children } }: TreeItemProps) {
 }
 
 export default function Tree({ data }: TreeProps) {
+	const ascending = (a: TreeData, b: TreeData) => {
+		return a.text < b.text ? -1 : b.text > a.text ? 1 : 0;
+	};
+
+	const sortTree = (treeNodes: TreeData[]) => [...treeNodes].sort(ascending);
+
 	return (
-		<ul>
-			{data.map((node, index) => (
-				<TreeItem key={index} node={node} />
-			))}
-		</ul>
+		<Consumer>
+			{sort => {
+				const sortedData = sort ? sortTree(data) : data ;
+				return (
+					<ul>
+						{sortedData.map((node, index) => (
+							<TreeItem key={index} node={node} />
+						))}
+					</ul>
+				);
+			}}
+		</Consumer>
 	);
 }

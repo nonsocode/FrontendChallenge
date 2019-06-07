@@ -1,41 +1,66 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Tree from './components/Tree';
-
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Tree from "./components/Tree";
+import Sortable from "./components/Sortable";
 
 class App extends Component {
-  state = {
-    data:[
+	state = {
+		data: [
       {
-        text: "Folder 1",
+        text: "Movies",
         children: [
           {
-            text: "Sub Folder 1",
+            text: "Horror",
             children: [
               {
-                text: "Sub Sub Folder 1"
+                text: "Halloween"
+              },
+              {
+                text: "Alien"
               }
             ]
           },
           {
-            text: "Sub Folder 2"
+            text: "Action",
+            children: [
+              {
+                text: "Stone Cold"
+              },
+              {
+                text: "Commando"
+              }
+            ]
           }
         ]
       },
       {
-        text: "Folder 2",
-        children: []
+        text: "Books",
+        children: [
+          {
+            text: "Children of time"
+          }
+        ]
       }
     ]
-  }
-  render() {
-    return (
-      <div className="App">
-          <Tree data={this.state.data} />
-      </div>
-    );
-  }
+	};
+	render() {
+		return (
+			<div className="App">
+				<div>
+					<h1>Default Tree</h1>
+					<Tree data={this.state.data} />
+				</div>
+        <hr/>
+        <div>
+          <h1>Sorted Tree</h1>
+          <Sortable>
+            <Tree data={this.state.data} />
+          </Sortable>
+        </div>
+			</div>
+		);
+	}
 }
 
 export default App;
