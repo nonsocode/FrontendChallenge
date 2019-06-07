@@ -1,5 +1,7 @@
 import React from "react";
-import { Consumer } from "./Sortable";
+import { Consumer as SortableConsumer } from "./Sortable";
+import { Consumer } from "./Collapsible";
+import TreeItem from './TreeItem'
 export interface TreeProps {
 	data: TreeData[];
 }
@@ -9,20 +11,7 @@ export interface TreeData {
 	children?: TreeData[];
 }
 
-interface TreeItemProps {
-	node: TreeData;
-}
 
-function TreeItem({ node: { text, children } }: TreeItemProps) {
-	return (
-		<li>
-			<div>
-				<span>{text}</span>
-			</div>
-			{children && <Tree data={children} />}
-		</li>
-	);
-}
 
 export default function Tree({ data }: TreeProps) {
 	const ascending = (a: TreeData, b: TreeData) => {
@@ -33,14 +22,24 @@ export default function Tree({ data }: TreeProps) {
 
 	return (
 		<Consumer>
-			{sort => {
-				const sortedData = sort ? sortTree(data) : data ;
+			{collapsible => {
 				return (
-					<ul>
-						{sortedData.map((node, index) => (
-							<TreeItem key={index} node={node} />
-						))}
-					</ul>
+					<SortableConsumer>
+						{sort => {
+							const sortedData = sort ? sortTree(data) : data;
+							return (
+								<ul>
+									{sortedData.map((node, index) => (
+										<TreeItem
+											key={index}
+											node={node}
+											collapsible={collapsible}
+										/>
+									))}
+								</ul>
+							);
+						}}
+					</SortableConsumer>
 				);
 			}}
 		</Consumer>

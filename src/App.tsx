@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Tree from "./components/Tree";
 import Sortable from "./components/Sortable";
+import Collapsible from "./components/Collapsible";
 
 class App extends Component {
 	state = {
@@ -57,6 +58,12 @@ class App extends Component {
           <Sortable>
             <Tree data={this.state.data} />
           </Sortable>
+        </div>
+        <div>
+          <h1>Collapsible Tree</h1>
+          <Collapsible>
+            <Tree data={this.state.data} />
+          </Collapsible>
         </div>
 			</div>
 		);
